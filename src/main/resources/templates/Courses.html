@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Courses | LL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index-styles.css">
+    <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+</head>
+<body >
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header END-->
+
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="bread-container pt-4 pb-sm-4">
+            <h4 class="inner-text-title pt-5">Courses</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><i class="fas fa-angle-right"></i>Courses</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb end-->
+
+
+<!--Course Start-->
+<div class="course-main">
+    <section class="header-links">
+        <div class="course-link-admin" sec:authorize="hasRole('ROLE_ADMIN')" >
+                <button id="addCourseBtn"  class="my-modal-btn">Add Courses <i class="zmdi zmdi-plus"></i></button>
+        </div>
+        <div class="modal-container" id="addCourse">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title-content">
+                        <modalTitle class="modal-title">Add New Course</modalTitle>
+                        <span class="text-decoration-modal-title-underline-half"></span>
+                    </div>
+                    <div class="close-btn">
+                        <span class="close">&times;</span>
+                    </div>
+                </div>
+                <div class="modal-form">
+                    <div class="course-form-container">
+                        <form th:action="@{/admin/addNewCourse}" method="post" class="course-form" id="course-form" th:object="${NewCourse}">
+                            <div class="form-group">
+                                <icon-label><i class="zmdi zmdi-receipt"></i></icon-label>
+                                <input class="reg-input" type="text" th:field="*{courseName}" placeholder="Course Name" />
+                            </div>
+                            <div class="form-group">
+                                <icon-label><i class="zmdi zmdi-label"></i></icon-label>
+                                <input class="reg-input" type="text" th:field="*{courseAlias}" placeholder="Course Alias" />
+                            </div>
+                            <div class="form-group">
+                                <icon-label><i class="zmdi zmdi-email"></i></icon-label>
+                                <input class="reg-input" type="text" th:field="*{courseDescription}" placeholder="Course Description" />
+                            </div>
+                            <div class="form-group">
+                                <icon-label><i class="zmdi zmdi-time"></i></icon-label>
+                                <input class="reg-input" type="text" th:field="*{courseDuration}" placeholder="Course Duration" />
+                            </div>
+                            <div class="form-group">
+                                <icon-label><i class="zmdi zmdi-assignment"></i></icon-label>
+                                <input class="reg-input" type="text" th:field="*{coursePrerequisites}" placeholder="Course Prerequisites" />
+                            </div>
+                            <div class="form-group">
+                                <icon-label><i class="zmdi zmdi-star-circle"></i></icon-label>
+                                <input class="reg-input" type="text" th:field="*{courseAchievementGain}" placeholder="Course Achievement" />
+                            </div>
+                            <div class="form-group">
+                                <icon-label><i class="zmdi zmdi-upload"></i></icon-label>
+                                <input class="reg-input" type="text" th:field="*{courseImagePath}" placeholder="Course Image" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer-container">
+                    <div class="submit-btn-container">
+                        <button type="submit" form="course-form" class="submit-btn" value="Add Course" onclick="gotoCourse()">Add Course</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="courses-container" class="courses-container">
+        <div class="courses-content-inner">
+            <div class="course-box" th:each="course : ${courses}">
+                <div class="course-box-inner">
+                    <div class="img-container">
+                        <img class="course-img" th:src="${course.courseImagePath}" alt="java">
+                    </div>
+                    <span class="course-content-separator"></span>
+                    <div class="text-container">
+                        <div class="text-upper-container">
+                            <div class="upper-container-flex-start">
+                                <div class="text-upper-container-inner">
+                                    <div class="course-name">
+                                        <a th:text="${course.courseName}" th:href="@{/courseDetails(course_alias = ${course.courseAlias})}"></a>
+                                    </div>
+                                    <div class="course-copyright-text">
+                                        <course-copyright-name>by Look and Learn</course-copyright-name>
+                                    </div>
+                                </div>
+                                <div class="stars-wrapper">
+                                    <div class="stars-container">
+                                        <span><i class="zmdi zmdi-star-outline" style="color: #0d6efd"></i></span>
+                                        <span><i class="zmdi zmdi-star-outline" style="color: #0d6efd"></i></span>
+                                        <span><i class="zmdi zmdi-star-outline" style="color: #0d6efd"></i></span>
+                                        <span><i class="zmdi zmdi-star-outline" style="color: #0d6efd"></i></span>
+                                        <span><i class="zmdi zmdi-star-outline" style="color: #0d6efd"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-lower-container">
+                            <div class="card-end">
+                                <div class="enrolled-info">
+                                    <span class="person-zmdi"><i class="zmdi zmdi-accounts-outline"></i></span>
+                                    <student-text>Students:</student-text>
+                                    <students-enrolled th:text="${course.getUsers().size()}"></students-enrolled>
+                                </div>
+                                <div class="course-duration">
+                                    <span class="duration-zmdi"><i class="zmdi zmdi-time"></i></span>
+                                    <duration-text>Duration:</duration-text>
+                                    <course-duration-time th:text="${course.courseDuration}"></course-duration-time>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!--Course End-->
+
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+
+<!--Scripts-->
+<script>
+    const header = document.getElementById("first-header");
+    window.addEventListener("scroll",changeBackground);
+    function changeBackground()
+    {
+        let scroll = window.scrollY;
+        if (scroll > 350) {
+            header.style.backgroundColor="white";
+            header.style.borderBottom='1px solid lightslategrey';
+        }
+        else{
+            header.style.backgroundColor="transparent";
+            header.style.borderBottom='none';
+        }
+    }
+</script>
+<script>
+    const back_to_top_btn = document.getElementById("back-to-top-btn");
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 250) {
+            back_to_top_btn.setAttribute("class", "slide-in-bottom");
+            back_to_top_btn.style.visibility = "visible";
+        } else {
+            back_to_top_btn.setAttribute("class", "slide-out-top");
+            back_to_top_btn.style.visibility = "hidden";
+        }
+    }
+    back_to_top_btn.onclick = function () {
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+<script>
+    function myDropdownFunction(){
+        let dropDown = document.getElementById("myDropdown");
+        console.log("hi");
+        if(dropDown.classList.contains("show")) {
+            dropDown.classList.remove("show");
+        } else {
+            dropDown.classList.add("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.drop-btn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+<script>
+    let modal = document.getElementById("addCourse");
+    let btn = document.getElementById("addCourseBtn");
+    let courseSection = document.getElementById("courses-container");
+    let span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() {
+        modal.style.display = "block";
+        modal.scrollIntoView({block: "start"});
+        courseSection.style.filter = 'blur(10px)';
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+        courseSection.style.filter = 'none';
+        courseSection.scrollIntoView({block: "start"});
+    }
+</script>
+
+</body>
+</html>

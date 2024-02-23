@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Contact | LL </title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index-styles.css">
+    <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+</head>
+<body>
+
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header End-->
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="bread-container pt-4 pb-sm-4">
+            <h4 class="inner-text-title pt-5">Contact</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><i class="fas fa-angle-right"></i>Contact</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb end-->
+
+<!--Contact main-->
+<section class="contact-main" id="contact-main">
+    <div class="contact-container">
+        <div class="contact-details-outer-box">
+            <div class="contact-details-inner-middle-box">
+                <div class="contact-details-container">
+                    <div class="contact-heading">
+                        <main-title>Contact Us</main-title>
+                        <!--<span class="text-decoration-setting-title-underline-half"></span>-->
+                    </div>
+                    <div class="contact-field-container">
+                        <div class="contact-icon-container">
+                            <i class="zmdi zmdi-pin"></i>
+                        </div>
+                        <div class="contact-content-details">
+                            <div class="contact-content-container">
+                                <p class="contact-content-key">
+                                    ADDRESS:
+                                </p>
+                            </div>
+                            <div class="contact-content-container">
+                                <p class="contact-content-value">
+                                    7-2-358, Pot market, Secunderabad, Telangana
+                                    <br>
+                                    500003
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-field-container">
+                        <div class="contact-icon-container">
+                            <i class="zmdi zmdi-phone"></i>
+                        </div>
+                        <div class="contact-content-details">
+                            <div class="contact-content-container">
+                                <p class="contact-content-key">
+                                    PHONE:
+                                </p>
+                            </div>
+                            <div class="contact-content-container">
+                                <p class="contact-content-value">
+                                    +91 63058 40749
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-field-container">
+                        <div class="contact-icon-container">
+                            <i class="zmdi zmdi-email"></i>
+                        </div>
+                        <div class="contact-content-details">
+                            <div class="contact-content-container">
+                                <p class="contact-content-key">
+                                    EMAIL:
+                                </p>
+                            </div>
+                            <div class="contact-content-container">
+                                <p class="contact-content-value">
+                                    yashrajvarma9@gmail.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-field-container">
+                        <div class="contact-icon-container">
+                            <i class="zmdi zmdi-globe"></i>
+                        </div>
+                        <div class="contact-content-details">
+                            <div class="contact-content-container">
+                                <p class="contact-content-key">
+                                    WEBSITE:
+                                </p>
+                            </div>
+                            <div class="contact-content-container">
+                                <p class="contact-content-value">
+                                    yash-raj-varma.tech
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <div class="contact-form-container-main">
+                        <div class="contact-form-heading-content">
+                            <main-title>Get in touch</main-title>
+                        </div>
+                        <div class="contact-inner-form-container">
+                            <form th:action="@{/contactAdmin}" method="post" class="register-form" id="contact-form">
+                                <div class="form-group">
+
+                                    <input type="text" placeholder="Your Name" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" placeholder="Your Email Address" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Subject" />
+                                </div>
+                                <div class="form-group">
+                                    <textarea minlength="1" maxlength="250" type="text" class="desc" placeholder="Your Message"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="contact-form-submit-container">
+                            <div class="submit-btn-container">
+                                <button type="submit" form="contact-form" class="submit-btn" value="Send Message">Send Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!--Contact main End-->
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+<!--Scripts-->
+<script>
+    const header = document.getElementById("first-header");
+    window.addEventListener("scroll",changeBackground);
+    function changeBackground()
+    {
+        let scroll = window.scrollY;
+        if (scroll > 1) {
+            header.style.backgroundColor="white";
+            header.style.borderBottom='1px solid lightslategrey';
+        }
+        else{
+            header.style.backgroundColor="transparent";
+            header.style.borderBottom='none';
+        }
+    }
+</script> <!--Header script-->
+<script>
+    const back_to_top_btn = document.getElementById("back-to-top-btn");
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 250) {
+            back_to_top_btn.setAttribute("class", "slide-in-bottom");
+            back_to_top_btn.style.visibility = "visible";
+        } else {
+            back_to_top_btn.setAttribute("class", "slide-out-top");
+            back_to_top_btn.style.visibility = "hidden";
+        }
+    }
+    back_to_top_btn.onclick = function () {
+        document.documentElement.scrollTop = 0;
+    }
+</script> <!--Back_to_top_btn script-->
+<script>
+    function myDropdownFunction(){
+        let dropDown = document.getElementById("myDropdown");
+        console.log("hi");
+        if(dropDown.classList.contains("show")) {
+            dropDown.classList.remove("show");
+        } else {
+            dropDown.classList.add("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.drop-btn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script> <!--Drop down script-->
+<!--Scripts end-->
+
+</body>
+</html>

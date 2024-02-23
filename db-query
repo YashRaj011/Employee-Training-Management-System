@@ -1,0 +1,9 @@
+This is the DB query for user_courses
+
+CREATE TABLE user_courses (
+USER_ID int NOT NULL,
+COURSE_ID int NOT NULL,
+FOREIGN KEY (USER_ID) REFERENCES user_details(USER_ID),
+FOREIGN KEY (COURSE_ID) REFERENCES courses(COURSE_ID),
+PRIMARY KEY (USER_ID, COURSE_ID)
+);

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Students | LL</title>
+
+  <!-- Font Icon -->
+  <link rel="stylesheet"
+        href="/assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/index-styles.css">
+
+  <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+</head>
+<body>
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header END-->
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+  <div class="w3l-breadcrumb py-lg-5">
+    <div class="bread-container pt-4 pb-sm-4">
+      <h4 class="inner-text-title pt-5">Course Student Details</h4>
+      <ul class="breadcrumbs-custom-path">
+        <li><a th:href="@{/courses}">Course Details</a></li>
+        <li><i class="fas fa-angle-right"></i><span th:text="${course.courseAlias} + ' '"></span><span>Course Students</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!--Breadcrumb end-->
+
+<div class="view-main">
+  <div class="view-header-links">
+    <ul>
+      <li class="error" th:if="${!#strings.isEmpty(errorMessage)}" th:text="${errorMessage}" />
+      <li class="error" th:if="${!#strings.isEmpty(adminMessage)}" th:text="${adminMessage}" />
+    </ul>
+    <div class="student-link-admin">
+      <button id="addStudentBtn"  class="my-modal-btn">Add Students<i class="zmdi zmdi-plus"></i></button>
+    </div>
+    <div class="view-modal-container" id="addStudent">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title-content">
+            <modalTitle class="modal-title">Add New Student</modalTitle>
+            <span class="text-decoration-modal-title-underline-half"></span>
+          </div>
+          <div class="close-btn">
+            <span class="close">&times;</span>
+          </div>
+        </div>
+        <div class="modal-form">
+          <div class="course-form-container">
+            <form th:action="@{/admin/addNewStudent}" method="post" class="course-form" id="course-form" th:object="${user}">
+              <div class="form-group">
+                <icon-label><i class="zmdi zmdi-email"></i></icon-label>
+                <input class="reg-input" type="text" th:field="*{email}" placeholder="Student email" />
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer-container">
+          <div class="submit-btn-container">
+            <button type="submit" form="course-form" class="submit-btn" value="Add Student">Add Student</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="view-container" id="view-container">
+    <div class="view-title">
+      <div class="details-title-container">
+        <div class="details-title">Student Details</div>
+        <span class="text-decoration-modal-title-underline-half"></span>
+      </div>
+    </div>
+    <div class="details-container">
+      <div class="table-content">
+        <div th:if="${isEmpty} == 'true'" class="error-view">
+          <p class="error">No Student enrolled to this course</p>
+        </div>
+        <table th:if="${isEmpty} == 'false'" class="students-table">
+          <thead>
+          <tr>
+            <th>S.No.</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact No.</th>
+            <th>&nbsp;</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="user : ${course.getUsers}">
+            <td id="counter-content" th:text="${user.getUserId()}"></td>
+            <td th:text="${user.getUserName()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td th:text="${user.getContactNumber()}"></td>
+            <td>
+              <a class="delete-student-anchor" th:href="@{/admin/deleteStudent(userId = ${user.getUserId()})}">
+                <div class="delete-student">Remove</div>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+
+<!--Scripts-->
+<script>
+  const header = document.getElementById("first-header");
+  window.addEventListener("scroll",changeBackground);
+  function changeBackground()
+  {
+    let scroll = window.scrollY;
+    if (scroll > 350) {
+      header.style.backgroundColor="white";
+      header.style.borderBottom='1px solid lightslategrey';
+    }
+    else{
+      header.style.backgroundColor="transparent";
+      header.style.borderBottom='none';
+    }
+  }
+</script>
+<script>
+  let animation = document.getElementById("animate");
+  let items = document.getElementsByClassName("link-item")
+  let strName = "";
+  for(let i=0; i<items.length; i++){
+    let child = items[i];
+    if(child.matches(".active")){
+      strName = child.getAttribute("id");
+      break;
+    }
+  }
+  animation.classList.add(strName);
+</script>
+<script>
+  const back_to_top_btn = document.getElementById("back-to-top-btn");
+  window.onscroll = function () {
+    if (document.documentElement.scrollTop > 250) {
+      back_to_top_btn.setAttribute("class", "slide-in-bottom");
+      back_to_top_btn.style.visibility = "visible";
+    } else {
+      back_to_top_btn.setAttribute("class", "slide-out-top");
+      back_to_top_btn.style.visibility = "hidden";
+    }
+  }
+  back_to_top_btn.onclick = function () {
+    document.documentElement.scrollTop = 0;
+  }
+</script>
+<script>
+
+  function myDropdownFunction(){
+
+    let dropDown = document.getElementById("myDropdown");
+    console.log("hi");
+    if(dropDown.classList.contains("show")) {
+      dropDown.classList.remove("show");
+    } else {
+      dropDown.classList.add("show");
+    }
+  }
+  window.onclick = function(event) {
+    if (!event.target.matches('.drop-btn')) {
+      let dropdowns = document.getElementsByClassName("dropdown-content");
+      let i;
+      for (i = 0; i < dropdowns.length; i++) {
+        let openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
+<script>
+  let modal = document.getElementById("addStudent");
+  let btn = document.getElementById("addStudentBtn");
+  let viewSection = document.getElementById("view-container");
+  let span = document.getElementsByClassName("close")[0];
+  btn.onclick = function() {
+    modal.style.display = "block";
+    modal.scrollIntoView({block: "start"});
+    viewSection.style.filter = 'blur(10px)';
+  }
+  span.onclick = function() {
+    modal.style.display = "none";
+    viewSection.style.filter = 'none';
+    viewSection.scrollIntoView({block: "start"});
+  }
+</script>
+</body>
+</html>

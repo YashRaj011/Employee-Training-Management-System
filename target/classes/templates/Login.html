@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login | LL</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet"
+          href="/assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index-styles.css">
+
+    <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+</head>
+<body>
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header END-->
+
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="bread-container pt-4 pb-sm-4">
+            <h4 class="inner-text-title pt-5">Login</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><i class="fas fa-angle-right"></i>Login</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb end-->
+
+
+<!--main start-->
+<div class="main">
+    <!-- Sing in  Form -->
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure>
+                        <img src="/assets/images/signin-image.jpg" alt="sing up image">
+                    </figure>
+                    <strong><a th:href="@{/registration}" class="signup-image-link">New User?</a></strong>
+                </div>
+
+                <div class="signin-form">
+                    <ul>
+                        <li class="error"  th:if="${!#strings.isEmpty(errorMessage)}" th:text="${errorMessage}"></li>
+                        <li class="success"  th:if="${!#strings.isEmpty(logoutMessage)}" th:text="${logoutMessage}"></li>
+                        <li class="success"  th:if="${!#strings.isEmpty(registerMessage)}" th:text="${registerMessage}"></li>
+                        <li class="success"  th:if="${!#strings.isEmpty(detailsUpdateMessage)}" th:text="${detailsUpdateMessage}"></li>
+                    </ul>
+                    <ul th:if="${userDetail} == 'failed'">
+                        <li  class="error" th:text="'Please check the credentaials entered'"></li>
+                    </ul>
+                    <form action="/login" method = "POST" class="register-form" id="login-form">
+                        <div class="form-group">
+                            <icon-label><i class="zmdi zmdi-account material-icons-name"></i></icon-label>
+                                <input type="email" name = "username" placeholder="Registered email" />
+                        </div>
+                        <div class="form-group">
+                            <icon-label><i class="zmdi zmdi-lock"></i></icon-label>
+                                <input id="passInput" type="password" name = "password" placeholder="Password" />
+                            <img id="eye" class="eye-image" onclick="myFunction()" src="/assets/images/closed-eye.png" alt="eye">
+                        </div>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <div class="form-group">
+                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                        </div>
+                    </form>
+                    <div class="social-login">
+                        <span class="social-label">Or login with</span>
+                        <ul class="socials">
+                            <li><a href="#">
+                                <i class="display-flex-center zmdi zmdi-facebook"></i></a>
+                            </li>
+                            <li><a href="#">
+                                <i class="display-flex-center zmdi zmdi-twitter"></i></a>
+                            </li>
+                            <li><a href="#">
+                                <i class="display-flex-center zmdi zmdi-google"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!--main-end-->
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+<!-- JS -->
+<!--<script src="vendor/jquery/jquery.min.js"></script>-->
+<script src="/assets/js/main.js"></script>
+<script>
+    const header = document.getElementById("first-header");
+    window.addEventListener("scroll",changeBackground);
+    function changeBackground()
+    {
+        let scroll = window.scrollY;
+        if (scroll > 350) {
+            header.style.backgroundColor="white";
+            header.style.borderBottom='1px solid lightslategrey';
+        }
+        else{
+            header.style.backgroundColor="transparent";
+            header.style.borderBottom='none';
+        }
+    }
+</script>
+<script>
+    let animation = document.getElementById("animate");
+    let items = document.getElementsByClassName("link-item")
+    let strName = "";
+    for(let i=0; i<items.length; i++){
+        let child = items[i];
+        if(child.matches(".active")){
+            strName = child.getAttribute("id");
+            break;
+        }
+    }
+    animation.classList.add(strName);
+</script>
+<script>
+    function myFunction() {
+        const x = document.getElementById("passInput");
+        let eye = document.getElementById("eye")
+        if (x.type === "password") {
+            eye.src="/assets/images/open-eye.png"
+            x.type = "text";
+        } else {
+            eye.src="/assets/images/closed-eye.png"
+            x.type = "password";
+        }
+    }
+</script>
+<script>
+    const back_to_top_btn = document.getElementById("back-to-top-btn");
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 250) {
+            back_to_top_btn.setAttribute("class", "slide-in-bottom");
+            back_to_top_btn.style.visibility = "visible";
+        } else {
+            back_to_top_btn.setAttribute("class", "slide-out-top");
+            back_to_top_btn.style.visibility = "hidden";
+        }
+    }
+    back_to_top_btn.onclick = function () {
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+
+</body>
+</html>

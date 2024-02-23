@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard | LL</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet"
+          href="/assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index-styles.css">
+
+    <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+</head>
+<body>
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header END-->
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="bread-container pt-4 pb-sm-4">
+            <h4 class="inner-text-title pt-5">Dashboard</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><i class="fas fa-angle-right"></i>Dashboard</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb end-->
+
+<div>
+    <div th:text="${'Hello ' + username + '!! glad to see you here with us.'}"></div>
+    <div th:text="${'You have been assigned role - ' + role}"></div>
+</div>
+
+
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+<!--scripts-->
+<script>
+    const header = document.getElementById("first-header");
+    window.addEventListener("scroll",changeBackground);
+    function changeBackground()
+    {
+        let scroll = window.scrollY;
+        if (scroll > 350) {
+            header.style.backgroundColor="white";
+            header.style.borderBottom='1px solid lightslategrey';
+        }
+        else{
+            header.style.backgroundColor="transparent";
+            header.style.borderBottom='none';
+        }
+    }
+</script>
+<script>
+    let headerRight = document.getElementsByClassName("header-right");
+    let animation = document.getElementById("animate");
+    let items = document.getElementsByClassName("link-item")
+    let strName = "";
+    for(let i=0; i<items.length; i++){
+        let child = items[i];
+        if(child.matches(".active")){
+            strName = child.getAttribute("id");
+            break;
+        }
+    }
+    animation.classList.add(strName);
+</script>
+<script>
+    const back_to_top_btn = document.getElementById("back-to-top-btn");
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 250) {
+            back_to_top_btn.setAttribute("class", "slide-in-bottom");
+            back_to_top_btn.style.visibility = "visible";
+        } else {
+            back_to_top_btn.setAttribute("class", "slide-out-top");
+            back_to_top_btn.style.visibility = "hidden";
+        }
+    }
+    back_to_top_btn.onclick = function () {
+        document.documentElement.scrollTop = 0;
+    }
+</script>
+<script>
+    function myDropdownFunction(){
+        let dropDown = document.getElementById("myDropdown");
+        console.log("hi");
+        if(dropDown.classList.contains("show")) {
+            dropDown.classList.remove("show");
+        } else {
+            dropDown.classList.add("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.drop-btn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+
+
+
+</body>
+</html>

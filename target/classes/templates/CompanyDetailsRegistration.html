@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Company Details | LL</title>
+
+  <!-- Font Icon -->
+  <link rel="stylesheet"
+        href="/assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/index-styles.css">
+</head>
+<body>
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header END-->
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+  <div class="w3l-breadcrumb py-lg-5">
+    <div class="bread-container pt-4 pb-sm-4">
+      <h4 class="inner-text-title pt-5">Registration</h4>
+      <ul class="breadcrumbs-custom-path">
+        <li><a th:href="@{/home}">Home</a></li>
+        <li><i class="fas fa-angle-right"></i>Company Details</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!--Breadcrumb end-->
+
+<div class="registration-main">
+  <div class="company-registration-content">
+    <div class="welcome-user">
+      <div class="text_container">
+        <div class="text-main">Hello</div> &nbsp; &nbsp; &nbsp;
+        <div class="user-name" th:text="${username}"></div>&nbsp;
+        <div class="text-main" th:text="${'!! glad to see you here with us.'}"></div>
+      </div>
+    </div>
+    <div class="welcome-img">
+      <img class="welcome-image" src="/assets/images/welcome.png">
+    </div>
+    <div class="text-about">
+      <div class="text_container">
+        Before you get started, we want to know a bit more about you🤩
+      </div>
+    </div>
+    <div class="register-form-content">
+      <div class="form-heading">
+        <h3>Company Details</h3>
+      </div>
+      <form th:action="@{/additionalCompanyDetails}" id="form-start" method = "post" class="register-form" th:object="${registerCompany}" >
+        <div class="form-group">
+          <label><i class="zmdi zmdi-globe-alt"></i></label>
+          <input id="company_name" th:field="*{companyName}" name="company_name" type="text" placeholder="You are working at (Company name)" />
+        </div>
+        <div class="form-group">
+          <label ><i class="zmdi zmdi-account-circle"></i></label>
+          <input id="company_role" th:field="*{roleInCompany}"  name="company_role" type="text" placeholder="Your Role in company" />
+        </div>
+        <div class="form-group">
+          <label ><i class="zmdi zmdi-calendar"></i></label>
+          <input id="joining_date" th:field="*{joiningDate}" name="joining_date" type="text" placeholder="Joining Date" onfocus="(this.type='date')" onblur="(this.type='text')" />
+        </div>
+        <div class="form-group">
+          <label ><i class="zmdi zmdi-calendar"></i></label>
+          <input id="leaving_date" th:field="*{leavingDate}" name="leaving_date" type="text" placeholder="Leaving Date" onfocus="(this.type='date')" onblur="(this.type='text')" />
+        </div>
+        <div class="form-heading">
+          <h3>Skills you have</h3>
+          <div class="sub-heading">minimum 5</div>
+        </div>
+        <ol type="I" id="skill-list" class="add-skill-form">
+          <li  id="add-skill" class="add-skill">
+            <div class="skill-name">
+              <input type="text" name="skill" placeholder="Primary skill(s) OR Secondary skill(s)" />
+            </div>
+            <div class="skill-level">
+              <input type="text" placeholder="level of skill (eg:beginner or intermediate...)">
+            </div>
+          </li>
+        </ol>
+        <div id="add-remove" class="add-remove">
+          <div class="add-skill-btn" onclick="addItem()">Add skill</div>
+          <div id="remove-skill-btn" class="remove-skill-btn" onclick="removeItem()">Remove skill</div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="submit-end">
+    <input type="submit" form="form-start" value="SUBMIT" class="submit">
+  </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+<script>
+  const header = document.getElementById("first-header");
+  window.addEventListener("scroll",changeBackground);
+  function changeBackground()
+  {
+    let scroll = window.scrollY;
+    if (scroll > 350) {
+      header.style.backgroundColor="white";
+      header.style.borderBottom='1px solid lightslategrey';
+    }
+    else{
+      header.style.backgroundColor="transparent";
+      header.style.borderBottom='none';
+    }
+  }
+</script>
+<script>
+  let headerRight = document.getElementsByClassName("header-right");
+  let animation = document.getElementById("animate");
+  let items = document.getElementsByClassName("link-item")
+  let strName = "";
+  for(let i=0; i<items.length; i++){
+    let child = items[i];
+    if(child.matches(".active")){
+      strName = child.getAttribute("id");
+      break;
+    }
+  }
+  animation.classList.add(strName);
+</script>
+<script>
+  let counter = 0;
+  function addItem() {
+    counter++;
+    let main = document.getElementById("skill-list");
+    let newItem = document.createElement("li");
+    let oldItem = document.getElementById("add-skill");
+    let idName = "add-skill-"+counter.toString();
+    newItem.setAttribute('id',idName);
+    newItem.classList.add("add-skill");
+    newItem.innerHTML = oldItem.innerHTML;
+    main.appendChild(newItem);
+    if(main.children.length > 1){
+      document.getElementById("remove-skill-btn").style.display="inline-block";
+    }
+    if(main.children.length > 2){
+      main.style.height="240px";
+      main.style.overflowY="scroll";
+    }
+    document.getElementById(idName).scrollIntoView({block: "center"});
+  }
+  function removeItem() {
+    let main = document.getElementById("skill-list");
+    if(main.children.length > 2){
+      main.removeChild(main.lastChild);
+    }
+    else if(main.children.length === 2){
+      main.removeChild(main.lastChild);
+      document.getElementById("remove-skill-btn").style.display="none";
+    }
+    if(main.children.length === 2){
+      main.style.height="fit-content";
+      main.style.overflowY="hidden";
+    }
+    counter--;
+  }
+</script>
+<script>
+  const back_to_top_btn = document.getElementById("back-to-top-btn");
+  window.onscroll = function () {
+    if (document.documentElement.scrollTop > 250) {
+      back_to_top_btn.setAttribute("class", "slide-in-bottom");
+      back_to_top_btn.style.visibility = "visible";
+    } else {
+      back_to_top_btn.setAttribute("class", "slide-out-top");
+      back_to_top_btn.style.visibility = "hidden";
+    }
+  }
+  back_to_top_btn.onclick = function () {
+    document.documentElement.scrollTop = 0;
+  }
+</script>
+<script>
+
+  function myDropdownFunction(){
+
+    let dropDown = document.getElementById("myDropdown");
+    console.log("hi");
+    if(dropDown.classList.contains("show")) {
+      dropDown.classList.remove("show");
+    } else {
+      dropDown.classList.add("show");
+    }
+  }
+  window.onclick = function(event) {
+    if (!event.target.matches('.drop-btn')) {
+      let dropdowns = document.getElementsByClassName("dropdown-content");
+      let i;
+      for (i = 0; i < dropdowns.length; i++) {
+        let openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
+</body>
+</html>

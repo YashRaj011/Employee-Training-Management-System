@@ -1,0 +1,75 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CssUnknownProperty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCustomPropertiesEnabled" value="false" />
+      <option name="myIgnoreVendorSpecificProperties" value="true" />
+      <option name="myCustomPropertiesList">
+        <value>
+          <list size="0" />
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="2">
+            <item index="0" class="java.lang.String" itemvalue="th:action" />
+            <item index="1" class="java.lang.String" itemvalue="th:name" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="38">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="list-type-ulli" />
+            <item index="7" class="java.lang.String" itemvalue="h0" />
+            <item index="8" class="java.lang.String" itemvalue="student-text" />
+            <item index="9" class="java.lang.String" itemvalue="student-enrolled" />
+            <item index="10" class="java.lang.String" itemvalue="students-enrolled" />
+            <item index="11" class="java.lang.String" itemvalue="course-duration-time" />
+            <item index="12" class="java.lang.String" itemvalue="company-heading" />
+            <item index="13" class="java.lang.String" itemvalue="company-name" />
+            <item index="14" class="java.lang.String" itemvalue="exp-heading" />
+            <item index="15" class="java.lang.String" itemvalue="user-exp" />
+            <item index="16" class="java.lang.String" itemvalue="description-heading" />
+            <item index="17" class="java.lang.String" itemvalue="description" />
+            <item index="18" class="java.lang.String" itemvalue="user-role" />
+            <item index="19" class="java.lang.String" itemvalue="joined-date" />
+            <item index="20" class="java.lang.String" itemvalue="leave-date" />
+            <item index="21" class="java.lang.String" itemvalue="profile-title" />
+            <item index="22" class="java.lang.String" itemvalue="icon" />
+            <item index="23" class="java.lang.String" itemvalue="user-name" />
+            <item index="24" class="java.lang.String" itemvalue="prof-sub-heading" />
+            <item index="25" class="java.lang.String" itemvalue="ion-icon" />
+            <item index="26" class="java.lang.String" itemvalue="icon-name" />
+            <item index="27" class="java.lang.String" itemvalue="icon-label" />
+            <item index="28" class="java.lang.String" itemvalue="-webkit-input-placeholder" />
+            <item index="29" class="java.lang.String" itemvalue="duration-text" />
+            <item index="30" class="java.lang.String" itemvalue="course-copyright-name" />
+            <item index="31" class="java.lang.String" itemvalue="modaltitle" />
+            <item index="32" class="java.lang.String" itemvalue="setting-title" />
+            <item index="33" class="java.lang.String" itemvalue="setting-sub-title" />
+            <item index="34" class="java.lang.String" itemvalue="setting-title-desc" />
+            <item index="35" class="java.lang.String" itemvalue="password-input-heading" />
+            <item index="36" class="java.lang.String" itemvalue="main-title" />
+            <item index="37" class="java.lang.String" itemvalue="main-sub-title" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="RequiredAttributes" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myAdditionalRequiredHtmlAttributes" value="src" />
+    </inspection_tool>
+  </profile>
+</component>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile | LL</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index-styles.css">
+    <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+</head>
+<body>
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header End-->
+
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="bread-container pt-4 pb-sm-4">
+            <h4 class="inner-text-title pt-5">My Profile</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><i class="fas fa-angle-right"></i>Profile</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb end-->
+
+
+<!--Profile main-->
+
+<section id="modal-container-multiple">
+    <div class="prof-modal-container" id="addImage">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-content">
+                    <modalTitle class="modal-title">Profile Image</modalTitle>
+                    <span class="text-decoration-modal-title-underline-half"></span>
+                </div>
+                <div class="close-btn">
+                    <span class="close" id="close">&times;</span>
+                </div>
+            </div>
+            <div class="modal-form">
+                <div class="course-form-container">
+                    <form th:action="@{/addProfImage}" method="post" class="course-form" id="course-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <icon-label><i class="zmdi zmdi-upload"></i></icon-label>
+                            <input type="file" name="image" accept="image/png, image/jpeg" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer-container">
+                <div class="submit-btn-container">
+                    <button type="submit" form="course-form" class="submit-btn" value="Add Course">Add Image</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="prof-modal-container" id="edit-personal-details">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-content">
+                    <modalTitle class="modal-title">User Personal Details</modalTitle>
+                    <span class="text-decoration-modal-title-underline-half"></span>
+                </div>
+                <div class="close-btn">
+                    <span class="close" id="prof-close">&times;</span>
+                </div>
+            </div>
+            <div class="modal-form">
+                <div class="course-form-container">
+                    <form th:action="@{/saveAboutDetails}" id="personal-form" method = "post" class="register-form" th:object="${aboutPersonalDetails}">
+                        <div class="form-group">
+                            <icon-label><i class="zmdi zmdi-assignment"></i></icon-label>
+                            <textarea minlength="100" maxlength="250" type="text" class="desc" placeholder="Define yourself in not greater than 250 Characters" th:field="*{userDescription}" id="userDescription" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <icon-label ><i class="zmdi zmdi-home"></i></icon-label>
+                            <input type="text" placeholder="Current Address" th:field="*{userAddress}" id="userAddress" />
+                        </div>
+                        <div class="form-group">
+                            <icon-label ><i class="zmdi zmdi-case-check"></i></icon-label>
+                            <input type="text"  placeholder="Work experience" th:field="*{userYearsOfExperience}" id="userYearsOfExperience"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer-container">
+                <div class="submit-btn-container">
+                    <button type="submit" form="personal-form" class="submit-btn" value="Update Details">Update Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="prof-modal-container" id="edit-social-details">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-content">
+                    <modalTitle class="modal-title">User Social Details</modalTitle>
+                    <span class="text-decoration-modal-title-underline-half"></span>
+                </div>
+                <div class="close-btn">
+                    <span class="close" id="social-close">&times;</span>
+                </div>
+            </div>
+            <div class="modal-form">
+                <div class="course-form-container">
+                    <form th:action="@{/saveSocialDetails}" id="social-form" method = "post" class="register-form" th:object="${socialPersonalDetails}">
+                        <div class="form-group">
+                            <icon-label ><i class="zmdi zmdi-facebook"></i></icon-label>
+                            <input type="url" placeholder="Facebook url" th:field="*{facebookUrl}" id="facebookUrl"/>
+                        </div>
+                        <div class="form-group">
+                            <icon-label ><i class="zmdi zmdi-instagram"></i></icon-label>
+                            <input type="url" placeholder="Instagram url" th:field="*{instagramUrl}" id="instagramUrl" />
+                        </div>
+                        <div class="form-group">
+                            <icon-label ><i class="zmdi zmdi-linkedin-box"></i></icon-label>
+                            <input type="url" placeholder="LinkedIn url" th:field="*{linkedinUrl}" id="linkedinUrl"/>
+                        </div>
+                        <div class="form-group">
+                            <icon-label ><i class="zmdi zmdi-github"></i></icon-label>
+                            <input type="url" placeholder="Github url" th:field="*{twitterUrl}" id="twitterUrl" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer-container">
+                <div class="submit-btn-container">
+                    <button type="submit" form="social-form" class="submit-btn" value="Update Details">Update Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="main" id="main">
+    <div class="profile-container">
+        <section class="intro-container">
+            <div class="intro-container-inner">
+                <div class="intro-user-profile-img" id="ImageDiv">
+                    <img class="prof-img" id="prof-img" th:src="@{${user.photosImagePath}}" alt="user-profile">
+                    <div class="edit-container" id="edit-container">
+                        <a class="edit-profile" id="edit-profile">
+                            <button id="edit-btn" class="edit-profile-btn">Edit <i class="zmdi zmdi-edit"></i></button>
+                        </a>
+                    </div>
+                </div>
+                <div class="intro-user-name">
+                    <user-name th:text="${user.getUserName()}"></user-name>
+                </div>
+            </div>
+        </section>
+        <section id="profile-content">
+            <div class="content-container" id="about-content">
+                <div class="title-container">
+                    <div class="zmdi-icon">
+                        <i class="zmdi zmdi-account-o"></i>
+                    </div>
+                    <profile-title>About</profile-title>
+                    <span class="text-decoration-title-underline-half"></span>
+                    <div class="edit-content">
+                        <button class="edit-btn" id="prof-edit-btn">Edit</button><i id="zmdi-edit-btn-1" class="zmdi zmdi-edit"></i>
+                    </div>
+                </div>
+                <div class="company-container">
+                    <div class="content-left">
+                        <div class="left-inner-row">
+                            <prof-sub-heading>Years of Experience</prof-sub-heading>
+                        </div>
+                        <div class="left-inner-row">
+                            <prof-sub-heading>Current Address</prof-sub-heading>
+                        </div>
+                        <div class="left-inner-row">
+                            <prof-sub-heading>Description</prof-sub-heading>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div th:if="${userPersonalDetail} == 'notnull'" class="right-inner-row">
+                            <user-exp th:text="${aboutPersonalDetails.getUserYearsOfExperience()} + ' Years'"></user-exp>
+                        </div>
+                        <div th:if="${userPersonalDetail} == 'null'" class="right-inner-row">
+                            <user-exp>--</user-exp>
+                        </div>
+                        <div th:if="${userPersonalDetail} == 'notnull'" class="right-inner-row desc-container">
+                            <description th:text="${aboutPersonalDetails.getUserAddress()}"></description>
+                        </div>
+                        <div th:if="${userPersonalDetail} == 'null'" class="right-inner-row">
+                            <company-name>--</company-name>
+                        </div>
+                        <div th:if="${userPersonalDetail} == 'notnull'" class="right-inner-row desc-container">
+                            <description th:text="${aboutPersonalDetails.getUserDescription()}"></description>
+                        </div>
+                        <div th:if="${userPersonalDetail} == 'null'" class="right-inner-row desc-container">
+                            <description>--</description>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-container" id="work-content">
+                <div class="title-container">
+                    <div class="zmdi-icon">
+                        <i class="zmdi zmdi-card-travel"></i>
+                    </div>
+                    <profile-title>Work Experience</profile-title>
+                    <span class="text-decoration-title-underline-half"></span>
+                </div>
+                <ul class="user-work-timeline">
+                    <li class="company-details-container">
+                        <div class="upper-company-container">
+                            <i class="zmdi zmdi-brightness-5"></i>
+                            <user-role>Software Engineer</user-role>
+                        </div>
+                        <div class="company-details-container-inner">
+                            <company-name>Virtusa</company-name>
+                            <span class="separator-content-vertical"></span>
+                            <div class="date-container">
+                                <joined-date>January 2022</joined-date>
+                                <span class="separator-hyphen"></span>
+                                <leave-date>July 2022</leave-date>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="company-details-container">
+                        <div class="upper-company-container">
+                            <i class="zmdi zmdi-brightness-5"></i>
+                            <user-role>Software Engineer</user-role>
+                        </div>
+                        <div class="company-details-container-inner">
+                            <company-name>Virtusa</company-name>
+                            <span class="separator-content-vertical"></span>
+                            <div class="date-container">
+                                <joined-date>January 2022</joined-date>
+                                <span class="separator-hyphen"></span>
+                                <leave-date>July 2022</leave-date>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="company-details-container">
+                        <div class="upper-company-container">
+                            <i class="zmdi zmdi-brightness-5"></i>
+                            <user-role>Software Engineer</user-role>
+                        </div>
+                        <div class="company-details-container-inner">
+                            <company-name>Virtusa</company-name>
+                            <span class="separator-content-vertical"></span>
+                            <div class="date-container">
+                                <joined-date>January 2022</joined-date>
+                                <span class="separator-hyphen"></span>
+                                <leave-date>July 2022</leave-date>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <span class="separator-horizontal-inner"></span>
+                <div class="add-work">
+                    <a th:href="@{/addExperience}"><button class="add-work-btn"><i class="zmdi zmdi-plus"></i>  Add New</button></a>
+                </div>
+            </div>
+            <div class="content-container" id="social-content">
+                <div class="title-container">
+                    <div class="zmdi-icon">
+                        <i class="zmdi zmdi-globe"></i>
+                    </div>
+                    <profile-title>Social Links</profile-title>
+                    <span class="text-decoration-title-underline-half"></span>
+                    <div class="edit-content">
+                        <button class="edit-btn" id="social-edit-btn">Edit</button><i id="zmdi-edit-btn-2" class="zmdi zmdi-edit"></i>
+                    </div>
+                </div>
+                <div class="social-icons-container">
+                    <ul class="icons-container">
+                        <li class="social-icon-item">
+                            <a target="_blank" th:if="${userPersonalDetail} == 'notnull'" class="social-icon-link facebook" th:href="@{${socialPersonalDetails.getFacebookUrl()}}">
+                                <ion-icon name="logo-facebook"></ion-icon>
+                                <icon-name>Facebook</icon-name>
+                            </a>
+                            <a target="_blank" th:if="${userPersonalDetail} == 'null'" class="facebook no-link">
+                                <icon-name>Add Facebook</icon-name>
+                            </a>
+                        </li>
+                        <li class="social-icon-item">
+                            <a target="_blank" th:if="${userPersonalDetail} == 'notnull'" class="social-icon-link instagram" th:href="@{${socialPersonalDetails.getInstagramUrl()}}">
+                                <ion-icon name="logo-instagram"></ion-icon>
+                                <icon-name>Instagram</icon-name>
+                            </a>
+                            <a target="_blank" th:if="${userPersonalDetail} == 'null'" class="instagram no-link">
+                                <icon-name>Add Instagram</icon-name>
+                            </a>
+                        </li>
+                        <li class="social-icon-item">
+                            <a target="_blank" th:if="${userPersonalDetail} == 'notnull'" class="social-icon-link twitter" th:href="@{${socialPersonalDetails.getTwitterUrl()}}">
+                                <ion-icon name="logo-twitter"></ion-icon>
+                                <icon-name>Twitter</icon-name>
+                            </a>
+                            <a target="_blank" th:if="${userPersonalDetail} == 'null'" class="twitter no-link">
+                                <icon-name>Add Twitter</icon-name>
+                            </a>
+                        </li>
+                        <li class="social-icon-item">
+                            <a target="_blank" th:if="${userPersonalDetail} == 'notnull'" class="social-icon-link linkedin" th:href="@{${socialPersonalDetails.getLinkedinUrl()}}">
+                                <ion-icon name="logo-linkedin"></ion-icon>
+                                <icon-name>Linkedin</icon-name>
+                            </a>
+                            <a target="_blank" th:if="${userPersonalDetail} == 'null'" class="linkedin no-link">
+                                <icon-name>Add Linkedin</icon-name>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="edit-content-btn"></div>
+            </div>
+        </section>
+    </div>
+</section>
+<!--Profile main end-->
+
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+
+<!--scripts-->
+<script>
+    const header = document.getElementById("first-header");
+    window.addEventListener("scroll",changeBackground);
+    function changeBackground()
+    {
+        let scroll = window.scrollY;
+        if (scroll > 1) {
+            header.style.backgroundColor="white";
+            header.style.borderBottom='1px solid lightslategrey';
+        }
+        else{
+            header.style.backgroundColor="transparent";
+            header.style.borderBottom='none';
+        }
+    }
+</script> <!--Header script-->
+<script>
+    const back_to_top_btn = document.getElementById("back-to-top-btn");
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 250) {
+            back_to_top_btn.setAttribute("class", "slide-in-bottom");
+            back_to_top_btn.style.visibility = "visible";
+        } else {
+            back_to_top_btn.setAttribute("class", "slide-out-top");
+            back_to_top_btn.style.visibility = "hidden";
+        }
+    }
+    back_to_top_btn.onclick = function () {
+        document.documentElement.scrollTop = 0;
+    }
+</script> <!--back_to_top_btn script-->
+<script>
+    function myDropdownFunction(){
+        let dropDown = document.getElementById("myDropdown");
+        console.log("hi");
+        if(dropDown.classList.contains("show")) {
+            dropDown.classList.remove("show");
+        } else {
+            dropDown.classList.add("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.drop-btn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script> <!--Drop down script-->
+<script>
+    let imgDiv = document.getElementById("ImageDiv");
+    let img = document.getElementById("prof-img");
+    let btnContainer = document.getElementById("edit-container");
+    imgDiv.onmouseover = function() {
+        img.style.filter = "blur(5px)";
+        btnContainer.style.display = "block";
+    }
+    imgDiv.onmouseout = function () {
+        img.style.filter = "none";
+        btnContainer.style.display = "none";
+    }
+    let modal = document.getElementById("addImage");
+    let btn = document.getElementById("edit-profile");
+    let profileSection = document.getElementById("main");
+    let span = document.getElementById("close");
+    btn.onclick = function() {
+        modal.style.display = "block";
+        modal.scrollIntoView({block: "center"});
+        profileSection.style.filter = 'blur(10px)';
+    }
+    span.onclick = function() {
+        modal.style.display = "none";
+        profileSection.style.filter = 'none';
+        profileSection.scrollIntoView({block: "start"});
+    }
+</script> <!--img-modal-->
+<script>
+    let personalDetailsModal = document.getElementById("edit-personal-details");
+    let personalDetailsBtn = document.getElementById("prof-edit-btn");
+    let personalDetailsProfileSection = document.getElementById("main");
+    let personalDetailsSpan = document.getElementById("prof-close");
+    personalDetailsBtn.onclick = function() {
+        personalDetailsModal.style.display = "block";
+        personalDetailsModal.scrollIntoView({block: "center"});
+        personalDetailsProfileSection.style.filter = 'blur(10px)';
+        personalDetailsProfileSection.style.cursor = 'no-drop';
+    }
+    personalDetailsSpan.onclick = function() {
+        personalDetailsModal.style.display = "none";
+        personalDetailsProfileSection.style.filter = 'none';
+        personalDetailsProfileSection.scrollIntoView({block: "start"});
+        personalDetailsProfileSection.style.cursor = 'default';
+    }
+</script> <!--about-modal-->
+<script>
+    let socialModal = document.getElementById("edit-social-details");
+    let socialBtn = document.getElementById("social-edit-btn");
+    let socialProfileSection = document.getElementById("main");
+    let socialSpan = document.getElementById("social-close");
+    socialBtn.onclick = function() {
+        socialModal.style.display = "block";
+        socialModal.scrollIntoView({block: "center"});
+        socialProfileSection.style.filter = 'blur(10px)';
+        socialProfileSection.style.cursor = 'no-drop';
+    }
+    socialSpan.onclick = function() {
+        socialModal.style.display = "none";
+        socialProfileSection.style.filter = 'none';
+        socialProfileSection.scrollIntoView({block: "start"});
+        socialProfileSection.style.cursor = 'default';
+    }
+</script>
+
+</body>
+</html>

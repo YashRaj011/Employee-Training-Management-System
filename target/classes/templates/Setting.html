@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Settings | LL </title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/index-styles.css">
+    <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+</head>
+
+<body>
+
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--side modals-->
+<div th:if="${passwordStatus} == 'success'">
+    <div class="success-temp-modal" id = "success-temp-modal">
+        <div class="modal-close-btn">
+            <span class="temp-modal-close-btn" id="success-close">&times;</span>
+        </div>
+        <p class="modal-text" th:text="${passwordStatusMessage}"></p>
+        <div class="sliderContainer" id="success-sliderContainer">
+            <div class="slider" id="success-slider"></div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${passwordStatus} == 'failed'">
+    <div class="error-temp-modal" id = "error-temp-modal">
+        <div class="modal-close-btn">
+            <span class="temp-modal-close-btn" id="error-close">&times;</span>
+        </div>
+        <p class="modal-text" th:text="${passError}"></p>
+        <div class="sliderContainer" id="error-sliderContainer">
+            <div class="slider" id="error-slider"></div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${passwordStatus} == 'false'">
+    <div class="error-temp-modal" id = "error-temp-modal-2">
+        <div class="modal-close-btn">
+            <span class="temp-modal-close-btn" id="error-close-2">&times;</span>
+        </div>
+        <p class="modal-text" th:text="${existingPasswordStatusMessage}"></p>
+        <div class="sliderContainer" id="error-sliderContainer-2">
+            <div class="slider" id="error-slider-2"></div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${updateError} == 'false'">
+    <div class="error-temp-modal" id = "error-temp-modal-3">
+        <div class="modal-close-btn">
+            <span class="temp-modal-close-btn" id="error-close-3">&times;</span>
+        </div>
+        <p class="modal-text" th:text="${detailsUpdateStatusMessage}"></p>
+        <div class="sliderContainer" id="error-sliderContainer-3">
+            <div class="slider" id="error-slider-3"></div>
+        </div>
+    </div>
+</div>
+<!--side modals end-->
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header End-->
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="bread-container pt-4 pb-sm-4">
+            <h4 class="inner-text-title pt-5">User Settings</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a th:href="@{/home}">Home</a></li>
+                <li><i class="fas fa-angle-right"></i>Settings</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--Breadcrumb end-->
+
+<!--modals-->
+<section class="modal-container-multiple">
+    <div class="prof-modal-container" id="edit-personal-details">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-content">
+                    <modalTitle class="modal-title">User Personal Details</modalTitle>
+                    <span class="text-decoration-modal-title-underline-half"></span>
+                </div>
+                <div class="close-btn">
+                    <span class="close" id="prof-close">&times;</span>
+                </div>
+            </div>
+            <div class="modal-form">
+                <div class="course-form-container">
+                    <form th:action="@{/savePersonalDetails}" id="personal-form" method = "post" class="register-form" th:object="${settingPersonal}">
+                        <div class="form-group">
+                            <icon-label><i class="zmdi zmdi-assignment"></i></icon-label>
+                            <input type="email" placeholder="New Email Address" th:field="*{userEmail}" />
+                        </div>
+                        <div class="form-group">
+                            <icon-label ><i class="zmdi zmdi-home"></i></icon-label>
+                            <input type="number" placeholder="New Contact Number" th:field="*{contactNumber}" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer-container">
+                <div class="submit-btn-container">
+                    <button type="submit" form="personal-form" class="submit-btn" value="Update Details">Update Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--modals-->
+
+<!--setting main-->
+<section class="setting-main" id="main">
+    <div class="setting-container">
+        <div class="change-container">
+            <div class="general-container">
+                <div class="heading-container">
+                    <main-title>General</main-title>
+                    <span class="text-decoration-setting-title-underline-half"></span>
+                </div>
+                <div class="general-details-container">
+                    <main-sub-title>Your Username</main-sub-title><br>
+                    <setting-title-desc><i>This is how users will see you in Look and Learn. This cannot be changed</i></setting-title-desc>
+                    <div class="username-container">
+                        <div th:text="${username}" class="username-content"></div>
+                    </div>
+                </div>
+                <div class="general-details-container">
+                    <main-sub-title>Email Address</main-sub-title><br>
+                    <setting-title-desc><i>We will never share your email address or display it publicly.</i></setting-title-desc>
+                    <div class="email-container">
+                        <div th:text="${userEmail}" class="email-content"></div>
+                        <div class="verified-container">
+                            <text>Verified</text>
+                        </div>
+                        <div class="not-verified-container">
+                            <text>Not Verified</text>
+                        </div>
+                    </div>
+                    <button class="change-email-content">
+                        <a class="change-email" id="change-email"><i class="zmdi zmdi-edit"></i>Change email</a>
+                    </button>
+                </div>
+            </div>
+            <div class="general-container" id="privacy-container">
+                <div class="heading-container">
+                    <main-title>Privacy & Security</main-title>
+                    <span class="text-decoration-setting-title-underline-half"></span>
+                </div>
+                <div class="general-details-container" id="privacy-details-container">
+                    <main-sub-title>Your Password</main-sub-title><br>
+                    <setting-title-desc><i>Enter your current LookAndLearn password along with a new one to change it.</i></setting-title-desc>
+                    <form th:action="@{/changeUserPassword}" method="post" class="pass-input-form" id="pass-input-form" th:object="${passSetting}">
+                        <ul th:if="${weakPassword} == 'true'">
+                            <li id="field-error" class="error" th:text="${fieldErrorStatusMessage}"></li>
+                        </ul>
+                        <ul th:if="${passMatch} == 'false'">
+                            <li id="password-match-error" class="error" th:text="${passwordMatchErrorStatusMessage}"></li>
+                        </ul>
+                        <ul th:if="${ValueError} == 'true'">
+                            <li id="value-error" class="error" th:text="${valueStatusMessage}"></li>
+                        </ul>
+                        <div class="field-content-container">
+                            <password-input-heading class="input-heading">Current Password</password-input-heading>
+                            <div class="form-group">
+                                <input type="password" id="currPassword" placeholder="Enter current password" th:field="*{currPassword}">
+                                <img id="eye" class="eye-image" onclick="myFunction()" src="/assets/images/closed-eye.png" alt="eye">
+                            </div>
+                        </div>
+                        <div class="new-field-details-container">
+                            <div class="field-content-container">
+                                <password-input-heading class="input-heading">New Password</password-input-heading>
+                                <div class="form-group">
+                                    <input type="password" id="newPassword" placeholder="Enter new password" th:field="*{newPassword}">
+                                    <img id="new-eye" class="eye-image" onclick="myNewFunction()" src="/assets/images/closed-eye.png" alt="eye">
+                                </div>
+                            </div>
+                            <div class="field-content-container">
+                                <password-input-heading class="input-heading">Confirm New Password</password-input-heading>
+                                <div class="form-group">
+                                    <input type="password" id="ConfirmNewPassword" placeholder="Re-enter new password" th:field="*{confirmPassword}">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" id="pass-submit" class="pass-change-submit-btn"><i class="zmdi zmdi-edit"></i> Update password</button>
+                    </form>
+                </div>
+                <div class="general-details-container">
+                    <main-sub-title>Contact Number</main-sub-title><br>
+                    <setting-title-desc><i>Your Contact will be displayed in the Dashboard page</i></setting-title-desc>
+                    <div class="field-content-container">
+                        <password-input-heading class="input-heading">Current Contact Number</password-input-heading>
+                        <div th:text="'+91  ' + ${userContact}" class="email-content"></div>
+                    </div>
+                        <!--Enhance it later-->
+
+
+                        <!--<div class="field-content-container">
+                            <password-input-heading class="input-heading">OTP</password-input-heading>
+                            <div class="form-group">
+                                <input type="number" id="OTP" placeholder="Enter the OTP">
+                            </div>
+                        </div>-->
+
+
+                        <!--Enhance it later-->
+                    <button type="submit" id="change-contact" class="pass-change-submit-btn"><i class="zmdi zmdi-edit"></i>Change contact</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--setting main end-->
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+
+<!--Scripts-->
+<script>
+    const header = document.getElementById("first-header");
+    window.addEventListener("scroll",changeBackground);
+    function changeBackground()
+    {
+        let scroll = window.scrollY;
+        if (scroll > 1) {
+            header.style.backgroundColor="white";
+            header.style.borderBottom='1px solid lightslategrey';
+        }
+        else{
+            header.style.backgroundColor="transparent";
+            header.style.borderBottom='none';
+        }
+    }
+</script> <!--Header script-->
+<script>
+    const back_to_top_btn = document.getElementById("back-to-top-btn");
+    window.onscroll = function () {
+        if (document.documentElement.scrollTop > 250) {
+            back_to_top_btn.setAttribute("class", "slide-in-bottom");
+            back_to_top_btn.style.visibility = "visible";
+        } else {
+            back_to_top_btn.setAttribute("class", "slide-out-top");
+            back_to_top_btn.style.visibility = "hidden";
+        }
+    }
+    back_to_top_btn.onclick = function () {
+        document.documentElement.scrollTop = 0;
+    }
+</script> <!--Back_to_top_btn script-->
+<script>
+    function myDropdownFunction(){
+        let dropDown = document.getElementById("myDropdown");
+        console.log("hi");
+        if(dropDown.classList.contains("show")) {
+            dropDown.classList.remove("show");
+        } else {
+            dropDown.classList.add("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.drop-btn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script> <!--Drop down script-->
+<script>
+    function myFunction() {
+        const x = document.getElementById("currPassword");
+        let eye = document.getElementById("eye")
+        if (x.type === "password") {
+            eye.src="/assets/images/open-eye.png"
+            x.type = "text";
+        } else {
+            eye.src="/assets/images/closed-eye.png"
+            x.type = "password";
+        }
+    }
+
+    function myNewFunction() {
+        const x = document.getElementById("newPassword");
+        const y = document.getElementById("ConfirmNewPassword");
+        let eye = document.getElementById("new-eye")
+        if (x.type === "password") {
+            eye.src="/assets/images/open-eye.png"
+            x.type = "text";
+            y.type = "text";
+        } else {
+            eye.src="/assets/images/closed-eye.png"
+            x.type = "password";
+            y.type = "password";
+        }
+    }
+</script> <!--Password-view-script-->
+<script>
+    const successTempModal = document.getElementById("success-temp-modal");
+    successTempModal.scrollIntoView({block : "center"});
+    setTimeout(function () {
+        const slider = document.getElementById("success-slider");
+        slider.style.visibility = "hidden";
+        successTempModal.style.visibility = "hidden";
+    }, 4000);
+</script> <!--Success-temp-modal-script-->
+<script>
+    const errTempModal = document.getElementById("error-temp-modal");
+    errTempModal.scrollIntoView({block : "center"});
+    setTimeout(function () {
+        const err_slider = document.getElementById("error-slider");
+        err_slider.style.visibility = "hidden";
+        errTempModal.style.visibility = "hidden";
+    }, 4000);
+</script> <!--Error-temp-modal-script-->
+<script>
+    const errTempModal2 = document.getElementById("error-temp-modal-2");
+    errTempModal2.scrollIntoView({block : "center"});
+    setTimeout(function () {
+        const err_slider2 = document.getElementById("error-slider-2");
+        err_slider2.style.visibility = "hidden";
+        errTempModal2.style.visibility = "hidden";
+    }, 4000);
+</script> <!--Error-temp-modal-2-script-->
+<script>
+    const errTempModal3 = document.getElementById("error-temp-modal-3");
+    errTempModal3.scrollIntoView({block : "center"});
+    setTimeout(function () {
+        const err_slider3 = document.getElementById("error-slider-3");
+        err_slider3.style.visibility = "hidden";
+        errTempModal3.style.visibility = "hidden";
+    }, 4000);
+</script> <!--Error-temp-modal-3-script-->
+<script>
+    const valueErrorElement = document.getElementById("value-error");
+    const fieldErrorElement = document.getElementById("field-error");
+    const passwordMatchElement = document.getElementById("password-match-error");
+    valueErrorElement.scrollIntoView({block : "center"});
+    fieldErrorElement.scrollIntoView({block : "center"});
+    passwordMatchElement.scrollIntoView({block : "center"});
+</script> <!--Error-elements-scroll-script-->
+<script>
+    let personalDetailsModal = document.getElementById("edit-personal-details");
+    let changeEmailBtn = document.getElementById("change-email");
+    let changeContactBtn = document.getElementById("change-contact");
+    let personalDetailsProfileSection = document.getElementById("main");
+    let personalDetailsSpan = document.getElementById("prof-close");
+    changeEmailBtn.onclick = function() {
+        personalDetailsModal.style.display = "block";
+        personalDetailsModal.scrollIntoView({block: "center"});
+        personalDetailsProfileSection.style.filter = 'blur(10px)';
+        personalDetailsProfileSection.style.cursor = 'no-drop';
+    }
+    changeContactBtn.onclick = function() {
+        personalDetailsModal.style.display = "block";
+        personalDetailsModal.scrollIntoView({block: "center"});
+        personalDetailsProfileSection.style.filter = 'blur(10px)';
+        personalDetailsProfileSection.style.cursor = 'no-drop';
+    }
+    personalDetailsSpan.onclick = function() {
+        personalDetailsModal.style.display = "none";
+        personalDetailsProfileSection.style.filter = 'none';
+        personalDetailsProfileSection.scrollIntoView({block: "start"});
+        personalDetailsProfileSection.style.cursor = 'default';
+    }
+</script> <!--Edit-details-modal-->
+<!--Scripts end-->
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Registration | LL</title>
+
+  <!-- Font Icon -->
+  <link rel="stylesheet"
+        href="/assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/index-styles.css">
+
+  <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+</head>
+<body>
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header END-->
+
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+  <div class="w3l-breadcrumb py-lg-5">
+    <div class="bread-container pt-4 pb-sm-4">
+      <h4 class="inner-text-title pt-5">Registration</h4>
+      <ul class="breadcrumbs-custom-path">
+        <li><a th:href="@{/home}">Home</a></li>
+        <li><i class="fas fa-angle-right"></i>Registration</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!--Breadcrumb-End-->
+
+
+<!--main-->
+<div class="main">
+
+  <!-- Sign up form -->
+  <section class="signup">
+    <div class="container">
+      <div class="signup-content">
+        <div class="signup-form">
+          <ul th:if="${registered} == 'failed'">
+            <li class="error" th:text="'Verify the credentials you have entered!'"></li>            <!--th:each="error : ${#fields.errors('register.*')}" th:text="${error}"-->
+          </ul>
+          <ul th:if="${registeredTerms} == 'failed'">
+            <li class="error" th:text="'Please accepts the TERMS AND CONDITIONS!'"></li>
+          </ul>
+          <ul th:if="${weakPassword} == 'true'">
+            <li class="error" th:text="'Please choose a STRONG password!'"></li>
+          </ul>
+          <ul th:if="${passMatch} == 'false'">
+            <li class="error" th:text="'Passwords do not match!'"></li>
+          </ul>
+          <ul th:if="${!#strings.isEmpty(dbErrorMessage)}">
+            <li class="error" th:text="${dbErrorMessage}"></li>
+          </ul>
+          <form th:action="@{/RegisterUser}" method = "post" class="register-form" id="register-form" th:object="${register}">
+            <div class="form-group">
+              <icon-label><i class="zmdi zmdi-account material-icons-name"></i></icon-label>
+              <input class="reg-input" type="text" th:field="*{userName}" placeholder="Your Name" />
+            </div>
+            <div class="form-group">
+              <icon-label ><i class="zmdi zmdi-email"></i></icon-label>
+              <input class="reg-input" type="text" th:field="*{email}" placeholder="Your Email" />
+            </div>
+            <div class="form-group">
+              <icon-label ><i class="zmdi zmdi-lock"></i></icon-label>
+              <input class="reg-input" id="passInput" type="password" th:field="*{password}" placeholder="Password" />
+              <img id="eye" class="eye-image" onclick="myFunction()" src="/assets/images/closed-eye.png" alt="eye-img">
+            </div>
+            <div class="form-group">
+              <icon-label><i class="zmdi zmdi-lock-outline"></i></icon-label>
+              <input class="reg-input" id="re_pass" type="password" th:field="*{confirmPassword}" placeholder="Repeat your password" />
+            </div>
+            <div class="form-group">
+              <icon-label><i class="zmdi zmdi-lock-outline"></i></icon-label>
+              <input class="reg-input" type="number" th:field="*{contactNumber}" placeholder="Contact number" />
+            </div>
+            <div class="form-group">
+              <input type="checkbox" name="agreeTerm" id="agree-term" class="agree-term" />
+              <label th:for="agree-term" class="label-agree-term"><span></span>I agree all statements in
+                <a href="#" class="term-service"><STRONG>Terms of service</STRONG></a>
+              </label>
+            </div>
+            <div class="form-group form-button">
+              <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+            </div>
+          </form>
+        </div>
+        <div class="signup-image">
+          <figure>
+            <img src="/assets/images/signup-image.jpg" alt="sing up image">
+          </figure>
+          <a th:href="@{/login}" class="signup-image-link">I am already member</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<!--main End-->
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+
+<!-- JS -->
+<script src="/assets/js/main.js"></script>
+<script>
+  const header = document.getElementById("first-header");
+  window.addEventListener("scroll",changeBackground);
+  function changeBackground()
+  {
+    let scroll = window.scrollY;
+    if (scroll > 350) {
+      header.style.backgroundColor="white";
+      header.style.borderBottom='1px solid lightslategrey';
+    }
+    else{
+      header.style.backgroundColor="transparent";
+      header.style.borderBottom='none';
+    }
+  }
+</script> <!--header script-->
+<script>
+  function myFunction() {
+    const x = document.getElementById("passInput");
+    const y = document.getElementById("re_pass");
+    let eye = document.getElementById("eye")
+    if (x.type === "password") {
+      eye.src="/assets/images/open-eye.png"
+      x.type = "text";
+      y.type = "text";
+    } else {
+      eye.src="/assets/images/closed-eye.png"
+      x.type = "password";
+      y.type = "password";
+    }
+  }
+</script> <!--password-view-script-->
+<script>
+  const back_to_top_btn = document.getElementById("back-to-top-btn");
+  window.onscroll = function () {
+    if (document.documentElement.scrollTop > 250) {
+      back_to_top_btn.setAttribute("class", "slide-in-bottom");
+      back_to_top_btn.style.visibility = "visible";
+    } else {
+      back_to_top_btn.setAttribute("class", "slide-out-top");
+      back_to_top_btn.style.visibility = "hidden";
+    }
+  }
+  back_to_top_btn.onclick = function () {
+    document.documentElement.scrollTop = 0;
+  }
+</script> <!--back-to-top-script-->
+
+</body>
+</html>

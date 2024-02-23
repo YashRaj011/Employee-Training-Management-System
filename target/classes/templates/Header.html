@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<div th:fragment="NavHeader">
+    <div id="first-header" class="header">
+        <a th:href="@{/home}" class="logo">Look 'N Learn</a>
+        <img class="logo-img" src="/assets/images/lookAndLearn.png" alt="look and learn image">
+<!--        <div class="search-box">-->
+<!--            <input type="text" name = "search_box" placeholder="Courses, internships, favorites and more..">-->
+<!--        </div>-->
+        <div class="header-center">
+            <a id="start-home" class="link-item" th:classappend="${#httpServletRequest.getRequestURI() == '/home' ? 'active' : ''}" th:href="@{/home}">Home</a>
+            <a id="start-course" class="link-item" th:classappend="${#httpServletRequest.getRequestURI() == '/courses' ? 'active' : ''}" th:href="@{/courses}">Courses</a>
+            <a sec:authorize="isAuthenticated()" id="start-about" class="link-item" th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard' ? 'active' : ''}" th:href="@{/dashboard}">Dashboard</a>
+            <a id="start-contact" class="link-item" th:classappend="${#httpServletRequest.getRequestURI() == '/contact' ? 'active' : ''}" th:href="@{/contact}">Contact</a>
+
+        </div>
+        <div class="header-right">
+            <div sec:authorize="isAnonymous()">
+                <a id="start-login" class="link-item" th:classappend="${#httpServletRequest.getRequestURI() == '/login' ? 'active' : ''}" th:href="@{/login}">Login</a>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="dropdown">
+                <div class="drop-down-container">
+                    <i class="zmdi zmdi-account"></i>
+                    <button onclick="myDropdownFunction()" class="drop-btn" th:text="${username}"></button>
+                </div>
+                <div id="myDropdown" class="dropdown-content">
+                    <div class="drp-dwn-item">
+                        <a th:href="@{/displayProfile}"><i class="zmdi zmdi-account-add"></i>  Profile</a>
+                    </div>
+                    <div class="drp-dwn-item">
+                        <a th:href="@{/settings}"><i class="zmdi zmdi-settings"></i>Settings</a>
+                    </div>
+                    <div class="drp-dwn-item">
+                        <a th:href="@{/contact}"><i class="zmdi zmdi-phone"></i>Contact</a>
+                    </div>
+                    <div class="drp-dwn-item">
+                        <a th:href="@{/logout}"><i class="zmdi zmdi-square-right"></i>Logout</a>
+                    </div>
+                </div>
+            </div>
+<!--
+          <div sec:authorize="isAuthenticated()">-->
+<!--                <a sec:authorize="isAuthenticated()" id="start-profile" class="link-item" th:classappend="${#httpServletRequest.getRequestURI() == '/displayProfile' ? 'active' : ''}" th:href="@{/displayProfile}">Profile</a>-->
+<!--                <a id="start-logout" class="link-item" th:classappend="${#httpServletRequest.getRequestURI() == '/logout' ? 'active' : ''}" th:href="@{/logout}">Logout</a>-->
+<!--            </div>-->
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+
+<!--Scripts-->
+

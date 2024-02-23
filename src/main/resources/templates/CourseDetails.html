@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Course Details | LL</title>
+
+  <!-- Font Icon -->
+  <link rel="stylesheet"
+        href="/assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/index-styles.css">
+
+    <link rel="icon" type="image/x-icon" href="/assets/images/main-logo.png">
+</head>
+<body class="details_body">
+<span id="back-to-top-btn">
+    <span class="rocket">⬆️</span>
+</span>
+
+<!--Header-->
+<div th:replace="Header :: NavHeader"> </div>
+<!--Header END-->
+
+<!--Breadcrumb-->
+<section class="inner-banner py-5">
+  <div class="w3l-breadcrumb py-lg-5">
+    <div class="bread-container pt-4 pb-sm-4">
+      <h4 class="inner-text-title pt-5">Course Details</h4>
+      <ul class="breadcrumbs-custom-path">
+        <li><a th:href="@{/courses}">Courses</a></li>
+        <li><i class="fas fa-angle-right"></i><span th:text="${CourseAlias}"></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!--Breadcrumb end-->
+
+<!--main-->
+<div class="main" >
+  <section id="details_section" class="details_section" th:each="course: ${Courses}">
+      <div class="course_image">
+        <img class="course_image_inner" th:src="${course.courseImagePath}" alt="CourseImage">
+      </div>
+      <div class="course_name">
+        <div class="course_name_inner" th:text="${course.courseName}"></div>
+        <div class="course_duration_zmdi"><i class="zmdi zmdi-time"></i></div>
+        <div class="course_duration" th:text="${course.courseDuration}"></div>
+      </div>
+      <ul th:if="${!#strings.isEmpty(enrollError)}">
+          <li class="error" th:text="${enrollError}"></li>
+      </ul>
+      <ol class="course_desc">
+        <li class="course_details_heading">Description</li>
+        <li class="course_desc_inner" th:text="${course.courseDescription}"></li>
+      </ol>
+      <ol class="course_pre">
+        <li class="course_details_heading">Prerequisites</li>
+        <li class="course_pre_inner" th:text="${course.coursePrerequisites}"></li>
+      </ol>
+      <ol class="course_gain">
+        <li class="course_details_heading">Achievements</li>
+        <li class="course_gain_inner" th:text="${course.courseAchievementGain}"></li>
+      </ol>
+      <a sec:authorize="hasRole('ROLE_STUDENT')" th:if="${userEnrolled} == false" class="anchor-submit" th:href="@{/enrollStudentToCourse(course_alias = ${course.courseAlias})}">
+          <div id="enrollUser" class="submit-anchor-enroll-div">Enroll</div>
+      </a>
+      <a sec:authorize="hasRole('ROLE_STUDENT')" th:if="${userEnrolled} == true" class="anchor-submit-enroll" th:href="@{'https://www.youtube.com/watch?v=ntLJmHOJ0ME&list=PLu0W_9lII9agS67Uits0UnJyrYiXhDS6q&ab_channel=CodeWithHarry'}">
+          <div id="enrolledUser" class="submit-anchor-enroll-div">Resume Course</div>
+      </a>
+      <a sec:authorize="hasRole('ROLE_ADMIN')" class="anchor-submit" th:href="@{/admin/viewEnrolledStudents(id = ${course.courseId})}">
+          <div id="displayUser" class="submit-anchor-view-div">View Enrolled Students</div>
+      </a>
+  </section>
+    <div id="congrats-div" class="congratulations">
+        <img alt="tick-gif" class="tick-gif" src="/assets/images/tick.gif">
+        <div class="success-msg">Congratulations, You have been successfully enrolled for this course.<br>Happy Learning!</div>
+        <a id="startEnroll" class="submit-course-anchor" th:href="@{'https://www.youtube.com/watch?v=ntLJmHOJ0ME&list=PLu0W_9lII9agS67Uits0UnJyrYiXhDS6q&ab_channel=CodeWithHarry'}">
+            <div id="startUser" class="submit-course-div">Start Course</div>
+        </a>
+    </div>
+</div>
+<!--End main-->
+
+
+<!-- Footer -->
+<div th:replace="Footer :: Footer"> </div>
+<!-- End Footer -->
+
+
+<!--Scripts-->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+  const header = document.getElementById("first-header");
+  window.addEventListener("scroll",changeBackground);
+  function changeBackground()
+  {
+    let scroll = window.scrollY;
+    if (scroll > 350) {
+      header.style.backgroundColor="white";
+      header.style.borderBottom='1px solid lightslategrey';
+    }
+    else{
+      header.style.backgroundColor="transparent";
+      header.style.borderBottom='none';
+    }
+  }
+</script>
+<script>
+  let animation = document.getElementById("animate");
+  let items = document.getElementsByClassName("link-item")
+  let strName = "";
+  for(let i=0; i<items.length; i++){
+    let child = items[i];
+    if(child.matches(".active")){
+      strName = child.getAttribute("id");
+      break;
+    }
+  }
+  animation.classList.add(strName);
+</script>
+<script>
+  function throwConfetti(){
+    let end = Date.now() + (1000);
+    let colors = ['#0d6efd', '#9198e5'];
+    (function frame() {
+      confetti({
+        particleCount: 5,
+        angle: 60,
+        spread: 100,
+        origin: {
+          x: 0
+        },
+        colors: colors
+      });
+      confetti({
+        particleCount: 5,
+        angle: 120,
+        spread: 100,
+        origin: {
+          x: 1
+        },
+        colors: colors
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+  }
+  let congrats_div = document.getElementById("congrats-div");
+  let back_section = document.getElementById("details_section");
+  let url = document.URL;
+  if(url.includes('?')){
+    let paramString = url.split('?')[1];
+    let queryString = new URLSearchParams(paramString);
+    for(let pair of queryString.entries()) {
+      if(pair[1] === "success"){
+        congrats_div.style.display='block';
+        congrats_div.scrollIntoView({block: "center"});
+        back_section.style.filter='blur(10px)';
+        throwConfetti();
+      }
+    }
+  }
+</script>
+<script>
+  const back_to_top_btn = document.getElementById("back-to-top-btn");
+  window.onscroll = function () {
+    if (document.documentElement.scrollTop > 250) {
+      back_to_top_btn.setAttribute("class", "slide-in-bottom");
+      back_to_top_btn.style.visibility = "visible";
+    } else {
+      back_to_top_btn.setAttribute("class", "slide-out-top");
+      back_to_top_btn.style.visibility = "hidden";
+    }
+  }
+  back_to_top_btn.onclick = function () {
+    document.documentElement.scrollTop = 0;
+  }
+</script>
+<script>
+
+    function myDropdownFunction(){
+
+        let dropDown = document.getElementById("myDropdown");
+        console.log("hi");
+        if(dropDown.classList.contains("show")) {
+            dropDown.classList.remove("show");
+        } else {
+            dropDown.classList.add("show");
+        }
+    }
+    window.onclick = function(event) {
+        if (!event.target.matches('.drop-btn')) {
+            let dropdowns = document.getElementsByClassName("dropdown-content");
+            let i;
+            for (i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
+<script>
+    window.onclick = function(event) {
+        if (!event.target.matches('#congrats-div')) {
+            let congrats_div = document.getElementById("congrats-div");
+            let back_section = document.getElementById("details_section");
+            congrats_div.style.display='none';
+            back_section.style.filter='none';
+        }
+    }
+</script>
+</body>
+</html>
