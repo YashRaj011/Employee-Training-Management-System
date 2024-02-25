@@ -74,6 +74,7 @@ public class AdminController {
         if(null == userEntity || !(userEntity.getUserId() > 0)) {
             mv.setViewName("redirect:/admin/viewEnrolledStudents?id=" + currCourse.getCourseId() + "&error=true");
             return mv;
+
         }
         if(userEntity.getRoles().getRoleName().equals("ADMIN")) {
             mv.setViewName("redirect:/admin/viewEnrolledStudents?id=" + currCourse.getCourseId() + "&admin=true");
