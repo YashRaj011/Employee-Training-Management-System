@@ -17,6 +17,6 @@ public class HomeController {
         if(user != null) {
             model.addAttribute("username", user.getUserName());
         }
-        return "Home";
+        return "Index";
     }
 }
